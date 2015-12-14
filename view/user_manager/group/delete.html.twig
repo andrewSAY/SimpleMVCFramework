@@ -1,0 +1,11 @@
+<span class="table_form"><info>Вы действительно хотие <b>удалить</b> группу <b>{{ tree.name }}
+            {% if(tree.nodes.count > 0) %}
+                и дочерние группы в количестве <b>{{ tree.getCountAllChildren }}</b>
+            {% endif %}
+        </b>?
+        После завршения операции <b>восстановить</b> данные группы будет <b>невозможно</b>.
+    </info>
+    </span>
+<div style="display: none;">
+    {{ form(form) }}
+</div>

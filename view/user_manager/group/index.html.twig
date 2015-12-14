@@ -1,0 +1,46 @@
+<h3>Список групп</h3>
+
+<div id="groupTree"></div>
+
+<ul class="group_actions" style="padding-bottom: 55px; list-style-type: none; display: inline;">
+    <li>
+        <a href="{{ path('admin_group_new', {'ownerId': 0}) }}">
+            Создать новую группу
+        </a>
+    </li>
+    <li style="display: none;">
+        {{ form(move_form) }}
+    </li>
+</ul>
+
+<ul id="menu" style="display: none;">
+    <li data-command="edit_group">Править</li>
+
+    <!--<li>----</li>
+    <li>Группы
+        <ul>
+            <li data-command="add_group">Созадть</li>
+            <li data-command="remove_groups">Удалить</li>
+            <li data-command="select_all">Выделить все</li>
+            <li>----</li>
+            <li data-command="cut_groups">Вырезать</li>
+            <li data-command="past_groups">Вставить</li>
+        </ul>
+    </li>
+    <li>----</li>-->
+    <li data-command="add_group">Созадть группу</li>
+    <li>Пользователи
+        <ul>
+            <li data-command="create_user">Создать</li>
+            <li data-command="edit_users">Редактировать</li>
+           <!-- <li data-command="activate_users">Активировать</li>
+            <li data-command="deactivate_users">Деактивировать</li>-->
+        </ul>
+    </li>
+    <li data-command="remove_group">Удалить
+
+</ul>
+
+<script type="text/javascript">
+    var dataGroupTree = {% autoescape false %}'{{ tree_data }}'{% endautoescape %};
+</script>

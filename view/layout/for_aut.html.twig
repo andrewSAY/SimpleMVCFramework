@@ -1,0 +1,31 @@
+{% extends 'layout::main.html.twig'|set_ds %}
+{% block outside_navigation %}
+    <nav id="secondary-navigation">
+        <ul>
+            <li {% if app.routeName == 'cabinet' %}class="current" {% endif %}><a
+                        href="{{ path('cabinet') }}">Кабинет</a></li>
+        </ul>
+        <h3>Задачи</h3>
+        <ul>
+    {% if app.user.role == 'ROLE_BOSS' %}
+        <li {% if app.routeName == 'task_new' or app.routeName == 'task_create' %}class="current" {% endif %}>
+            <a href="{{ path('task_new') }}">Новая задача</a>
+        </li>
+        <li {% if app.routeName == 'tasks_from_me'%}class="current" {% endif %}>
+            <a href="{{ path('tasks_from_me', {'state': 'all'}) }}">Мои задачи</a>
+        </li>
+        {% endif %}
+            <li {% if app.routeName == 'tasks_for_me'%}class="current" {% endif %}>
+                <a href="{{ path('tasks_for_me', {'state': 'all'}) }}">Задачи для меня</a>
+            </li>
+            </ul>
+        {% if app.user.role == 'ROLE_ADMIN' %}
+            <h3>Администрирование</h3>
+            <ul>
+                <li {% if app.routeName == 'admin_panel_user_management' %}class="current" {% endif %}>
+                    <a href="{{ path('admin_panel_user_management') }}">Пользователи и группы</a>
+                </li>
+            </ul>
+        {% endif %}
+    </nav>
+{% endblock %}

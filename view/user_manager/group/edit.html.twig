@@ -1,0 +1,51 @@
+<form method="post"
+      action=
+      {% if entity.id != 0 %}
+      "{{ path('admin_group_update', { 'id': entity.id }) }}"
+{% else %}
+    "{{ path('admin_group_create', { 'ownerId': entity.owner }) }}"
+        {% endif %}
+>
+<table class="table_form" width="100%">
+
+    <tr>
+        <td>{{ form_label(edit_form,'name') }}</td>
+        <td>
+            {% if edit_form.field('name').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'name') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'name') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'isActive') }}</td>
+        <td>
+            {% if edit_form.field('isActive').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'isActive') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'isActive') }}
+        </td>
+    </tr>
+
+    <tr style="display: none;">
+        <td>
+            {{ form_field(edit_form,'submit') }}
+        </td>
+    </tr>
+
+    {% if edit_form.errors|length %}
+        <tr>
+            <td colspan="2">
+                <ul class="errors">
+                    {% for error in edit_form.errors %}
+                        <li>
+                            {{ error }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+{{ form_end(edit_form) }}

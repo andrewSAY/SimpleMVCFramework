@@ -1,0 +1,10 @@
+{% extends 'layout::for_aut.html.twig'|set_ds %}
+{% block title %}
+    Task tracker LightWork SAYs welcome to you!
+{% endblock %}
+{% block section_caption %}
+    Личный кабинет
+{% endblock %}
+{% block content %}
+   <h3>{{ app.user.username }}</h3>
+{% endblock %}

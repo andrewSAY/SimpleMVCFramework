@@ -1,0 +1,204 @@
+{% extends 'layout::for_aut.html.twig'|set_ds %}
+{% block title %}
+    Task tracker LightWork SAYs to you never stop, continuous create tasks!
+{% endblock %}
+{% block section_caption %}
+    {% if  id > 0 %}
+        Редактирование задачи #{{ id }}
+    {% else %}
+        Новая задача
+    {% endif %}
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('libs/dataTables1.10.5/css/jquery.dataTables.min.css') }}" type="text/css"
+          media="all"/>
+    <link rel="stylesheet" href="{{ asset('libs/jqTree-1.0.0.2/jqtree.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('libs/draggableLists/draggable_list_style.css') }}" type="text/css"
+          media="all"/>
+    <link rel="stylesheet" href="{{ asset('libs/jq-ui-datetimepicker-addon/style.css') }}" type="text/css" media="all"/>
+    <link rel="stylesheet" href="{{ asset('task_tracker/css/main.css') }}" type="text/css" media="all"/>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('libs/jq-ui-datetimepicker-addon/core.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/draggableLists/draggable_lists_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/messenger_two_button_constructor.js') }}"></script>
+{% endblock %}
+{% block content %}
+    {{ form_begin(form) }}
+    <table class="task_form form_container">
+        <tr>
+            <td>{{ form_label(form,'theme') }}</td>
+            <td>
+                {% if form.field('theme').errors|length > 0 %}
+                    <span class="form_error">{{ form_field_errors(form,'theme') }}</span>
+                {% endif %}
+                {{ form_field(form, 'theme') }}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form,'body') }}</td>
+            <td>
+                {% if form.field('body').errors|length > 0 %}
+                    <span class="form_error">{{ form_field_errors(form,'body') }}</span>
+                {% endif %}
+                {{ form_field(form, 'body') }}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form,'users_widget') }}</td>
+            <td>
+                {% if form.field('users_widget').errors|length > 0 %}
+                    <span class="form_error">{{ form_field_errors(form,'users_widget') }}</span>
+                {% endif %}
+                <span style="display: none;">{{ form_field(form, 'users') }}</span>
+                {{ form_field(form, 'users_widget') }}
+                <input type="button" name="users_button" value="..."/>
+            </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form,'dateLimit') }}</td>
+            <td>
+                {% if form.field('dateLimit').errors|length > 0 %}
+                    <span class="form_error">{{ form_field_errors(form,'dateLimit') }}</span>
+                {% endif %}
+                {{ form_field(form, 'dateLimit') }}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form,'hardLevel') }}</td>
+            <td>
+                {% if form.field('hardLevel').errors|length > 0 %}
+                    <span class="form_error">{{ form_field_errors(form,'hardLevel') }}</span>
+                {% endif %}
+                {{ form_field(form, 'hardLevel') }}
+            </td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form,'speedLevel') }}</td>
+            <td>
+                {% if form.field('speedLevel').errors|length > 0 %}
+                    <span class="form_error">{{ form_field_errors(form,'speedLevel') }}</span>
+                {% endif %}
+                {{ form_field(form, 'speedLevel') }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span style="float: right;">
+                    {{ form_field(form, 'submit') }}
+                </span>
+            </td>
+        </tr>
+        {% if form.errors|length %}
+            <tr>
+                <td colspan="2">
+                    <ul class="errors">
+                        {% for error in form.errors %}
+                            <li>
+                                {{ error }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+    {{ form_end(form) }}
+
+    <div id="ul_form_dialog" style="display: none;">
+        <div id="ul_fieldChooser">
+            <span style="float: left; font-size: 75%;">Все(<span id="um_leftColumn_footer"></span>)</span>
+            <span style="float: right; font-size: 75%;">Привлеченные к задаче(<span id="um_rightColumn_footer"></span>)</span>
+            <br/>
+            <span style="float: left"></span>
+            <br/>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var form = $($('.form_container'));
+        var formDialog = $('#ul_form_dialog').dialog({
+            autoOpen: false,
+            title: 'Ваши подчиненные',
+            modal: true,
+            width: 650,
+            buttons: {
+                "Ok": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        form.find('input[type=submit]').button();
+        form.find('input[type=button]').button();
+
+        form.find('input[name=dateLimit]').attr('readonly', 'readonly').datetimepicker({
+            timeOnlyTitle: 'Выберите время',
+            timeText: 'Время',
+            hourText: 'Часы',
+            minuteText: 'Минуты',
+            secondText: 'Секунды',
+            currentText: 'Сейчас',
+            closeText: 'Закрыть',
+            timeFormat: 'HH:mm',
+            dateFormat: 'dd.mm.yy'
+        });
+        applyFieldChooser();
+        function applyFieldChooser() {
+            //var input = $(form.find('input[type=hidden]'));
+            var input = $(form.find('textarea[name=users]'));
+            //var dataUsers = JSON.parse();
+            //alert(form.find('textarea[name=users]').val());
+            var dataUsers = JSON.parse(input.val());
+            var fChoosers = new draggable_lists_contruct('#ul_fieldChooser', dataUsers, {
+                onCreateNode: function (event, node, div) {
+                    //node.name = node.fName + ' ' + node.name + ' ' + node.sName;
+                    div.text(node.fName + ' ' + node.name + ' ' + node.sName);
+                    div.append($('<span style="font-size: 75%;">').text(' (' + node.wPost + ') '));
+                },
+                onMoveNode: function (event, node, sourceList, recipientList, direction) {
+                    setCountNodesForColumns(fChoosers.getSourceContainer().find('div').length, fChoosers.getRecipientContainer().find('div').length);
+                    setData({'sourceList': sourceList, 'recipientList': recipientList}, input);
+                },
+                sort: function (x, y) {
+                    return (x.name > y.name);
+                }
+            });
+            setCountNodesForColumns(fChoosers.getSourceContainer().find('div').length, fChoosers.getRecipientContainer().find('div').length);
+            setData({'sourceList': fChoosers.getSourceList(), 'recipientList': fChoosers.getRecipientList()}, input);
+        }
+
+        form.find('input[type=button]').click(function () {
+
+            formDialog.dialog('open');
+        });
+
+        function setData(rList, input) {
+
+            //var dataForPost = new Array();
+            var widget = $(form.find('textarea[name=users_widget]'));
+            widget.val('');
+            for (
+                    i = 0; i < rList.recipientList.length; i++) {
+                // dataForPost.push(rList[i]);
+                // input.append($('<option>').val('{'+ rList[i].id).attr('selected', 'selected'));
+                var fullName = rList.recipientList[i].fName + ' ' + rList.recipientList[i].name + ' ' + rList.recipientList[i].sName;
+                if (i == 0) {
+                    widget.val(fullName);
+                }
+                else {
+                    widget.val(widget.val() + '\n' + fullName);
+                }
+            }
+            //input.val(JSON.stringify(dataForPost));
+            input.val(JSON.stringify(rList));
+        }
+
+        function setCountNodesForColumns(leftCount, rightCount) {
+            $('#um_leftColumn_footer').text(leftCount);
+            $('#um_rightColumn_footer').text(rightCount);
+        }
+
+
+    </script>
+{% endblock %}

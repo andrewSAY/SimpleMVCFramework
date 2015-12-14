@@ -1,0 +1,44 @@
+{% extends 'layout::for_aut.html.twig'|set_ds %}
+{% block title %}
+    Task tracker LightWork SAYs to you never stop, continuous create tasks!
+{% endblock %}
+{% block section_caption %}
+   {{ caption }} ({{ tasks|length }})
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('task_tracker/css/main.css') }}" type="text/css" media="all"/>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
+{% block content %}
+    {{ form_begin(filter) }}
+    {{ form_field(filter, 'state') }}
+    <div style="display: none;">{{ form_field(filter, 'submit') }}</div>
+    {{ form_end(filter) }}
+    <table class="task_list">
+    {% for task in tasks %}
+        <tr>
+            <td>
+                <a href="{{ path('task_show',{'id': task.id}) }}">
+                    <div class="{{ cycle(['even','odd'], loop.index0) }}">
+                        Тема: {{ task.theme }}</br>
+                        Создана: {{ task.dateCreate.format('d.m.Y г. в H ч. i мин.') }}</br>
+                        Состояние: {{ states[task.state] }}</br>
+                    </div>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+        var form = $($('form:eq(0)'));
+        form.find('select').selectmenu({
+            width: 550,
+            change: function(e, ui){
+                e.preventDefault();
+                window.location.href = ui.item.value;
+            }
+        });
+    </script>
+{% endblock %}

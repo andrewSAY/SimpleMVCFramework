@@ -1,0 +1,87 @@
+.table_sort
+{
+    margin: 10px auto;
+    text-align:center;
+    line-height:1;
+   /* border:1px solid #999999;*/
+    color:Black;
+    font-family:Arial,Verdana;
+    background-color:#d9efda;
+
+}
+.table_sort thead th
+{
+    max-width: 80px;
+    text-wrap: avoid;
+    word-wrap: break-word;
+}
+
+.table_sort tbody tr td
+{
+    max-width: 80px;
+    text-wrap: avoid;
+    word-wrap: break-word;
+}
+
+.table_sort thead tr
+{
+    background:#faf2c8;
+    border:1px solid #ffffff;
+    font-family:Arial;
+    padding:5px;
+    text-align: center;
+    font-size: 90%;
+}
+
+.table_sort tr:hover
+{
+    background-color: #faf2c8;  /*#d35914;/*#e3eaf8;*/
+}
+
+.table_sort tr.selected_row
+{
+    background-color: #d35914;
+}
+
+.table_sort tr
+{
+    cursor: pointer;
+}
+
+.table_sort td
+{
+    padding:5px 5px 5px 10px;
+    border-right:1px solid #ffffff;
+    font-size: 85%;
+}
+
+.dataTables_length, .dataTables_filter, .dataTables_wrapper, .dataTables_info
+{
+    font-size: 90%;
+    background-color: #fff; /*#d9efda; /*#faf2c8;*/
+    text-decoration: double;
+    padding: 5px;
+}
+
+.dataTables_length label
+{
+    color: #313131;
+    float: right;
+}
+
+.dataTables_length select
+{
+    background-color: #f8741c;
+    color: #fff;
+}
+
+.dataTables_filter input
+{
+    background-color: #f8741c;
+    color: #fff;
+}
+
+.dataTables_wrapper
+{
+
+}

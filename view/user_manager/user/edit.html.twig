@@ -1,0 +1,173 @@
+{{ form_begin(edit_form) }}
+
+<table class="table_form">
+
+    <tr>
+        <td>{{ form_label(edit_form,'username') }}</td>
+        <td>
+            {% if edit_form.field('username').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'username') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'username') }}
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>{{ form_label(edit_form,'password') }}</td>
+        <td>
+            {% if edit_form.field('password').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'password') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'password') }}
+            <a href="#" class="password_generator"
+               onclick="javascript:$(this).prev(':input').val(generatePassword(12)); return false;">Сгенировать
+                пароль</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'email') }}</td>
+        <td>
+            {% if edit_form.field('email').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'email') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'email') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'role') }}</td>
+        <td>
+            {% if edit_form.field('role').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'role') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'role') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'isActive') }}</td>
+        <td>
+            {% if edit_form.field('isActive').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'isActive') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'isActive') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'firstName') }}</td>
+        <td>
+            {% if edit_form.field('firstName').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'firstName') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'firstName') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'name') }}</td>
+        <td>
+            {% if edit_form.field('name').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'name') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'name') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'secondName') }}</td>
+        <td>
+            {% if edit_form.field('secondName').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'secondName') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'secondName') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'dateBorn') }}</td>
+        <td>
+            {% if edit_form.field('dateBorn').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'dateBorn') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'dateBorn') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'phone') }}</td>
+        <td>
+            {% if edit_form.field('phone').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'phone') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'phone') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'workPlace') }}</td>
+        <td>
+            {% if edit_form.field('workPlace').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'workPlace') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'workPlace') }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>{{ form_label(edit_form,'workPosition') }}</td>
+        <td>
+            {% if edit_form.field('workPosition').errors|length >0 %}
+                <span class="form_error">{{ form_field_errors(edit_form,'workPosition') }}</span>
+            {% endif %}
+            {{ form_field(edit_form,'workPosition') }}
+        </td>
+    </tr>
+
+    <tr style="display: none;">
+        <td>
+            {{ form_field(edit_form,'submit') }}
+        </td>
+    </tr>
+    {% if edit_form.errors|length %}
+        <tr>
+            <td colspan="2">
+                <ul class="errors">
+                    {% for error in edit_form.errors %}
+                        <li>
+                            {{ error.message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+{{ form_end(edit_form) }}
+
+
+<script>
+    $('form[name=user_edit_form]').find('input[name=phone]').keypress(function (e) {
+        if ((e.which < 48 || e.which > 57) && e.which != 0 && e.which != 8) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    function generatePassword(len) {
+        var words = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+        var passwd = '';
+
+        for (
+                var i = 0; i < len; i++) {
+            var str = words.charAt(Math.floor(Math.random() * words.length - 1));
+            // запоминаем предыдущее значение
+            passwd = passwd + str;
+
+        }
+
+        return passwd;
+    }
+</script>

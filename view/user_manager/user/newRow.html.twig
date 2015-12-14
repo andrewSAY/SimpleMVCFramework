@@ -1,0 +1,8 @@
+{"data": [
+"{{ entity.username }}",
+"{{ entity.email }}",
+"{{ entity.getRoleList[entity.role] }}",
+"{% if entity.wasChecked == true %}Да{% else %}Нет{% endif %}",
+"{% if entity.isActive == true %}Да{% else %}Нет{% endif %}",
+"<a href=\"{{ path('admin_user_delete_request', {'id': entity.id}) }}\">Удалить</a><input type=\"hidden\" value=\"{{ path('admin_user_edit', { 'id': entity.id }) }}\">"
+]}

@@ -1,0 +1,116 @@
+<div id="um_fieldChooser">
+    <span style="float: left">Все пользователи (<span id="um_leftColumn_footer"></span>)</span>
+    <span style="float: right">Пользователи группы(<span id="um_rightColumn_footer"></span>)</span>
+    <br/>
+    <span style="float: left"><input type="checkbox" id="um_show_hide___users" value="" style="cursor: pointer;"><span style="font-size: 80%;">   Показывать пользователей, задействованных в других группах</span></span>
+    <br/>
+</div>
+<div class="record_actions" style="display: none;">
+    {{ form(form) }}
+</div>
+<div id="ul_error_dialog">
+    <span class="ui-icon ui-icon-alert" style="float: left"></span><br/>
+
+    <div class="message"></div>
+</div>
+
+<div id="ul_form_dialog">
+    <div class="form_place"></div>
+    <br/>
+
+    <div class="status_bar" style="display: none; border-top: 0px inset #6c6159; font-size: 80%; width: 100%;">
+        <span></span>
+        <img src="{{ asset('user_manager/images/eq_loader.gif') }}">
+    </div>
+</div>
+
+<script type="text/javascript">
+    applyfieldChooser();
+    function applyfieldChooser() {
+        var formDialog = form_dialog_construct('#ul_form_dialog', '#ul_error_dialog', actionAfterUserUpdate);
+        var toggleUsers = $($('#um_show_hide___users'));
+        var input = $($('.record_actions form:eq(0)').find('input[type=text]:eq(0)'))
+        var editUser = null;
+        var dataUsers =  JSON.parse({% autoescape false %}'{{ users_data }}'{% endautoescape %});
+        var fChoosers = new draggable_lists_contruct('#um_fieldChooser', dataUsers, {
+            onCreateNode: function (event, node, div) {
+                div.append($('<span>').addClass('role').text(node.role));
+                if(node.active)
+                {
+                    div.append($('<span>').addClass('active').text(' Активен '));
+                }
+                else
+                {
+                    div.append($('<span>').addClass('no-active').text(' Заблокирован '));
+                }
+                node.element.append($('<span>').append($('<span>').addClass('edit').attr('href','#').text(' Править ').click(function (e) {
+                    e.preventDefault();
+                    editUser = node.element; // $($(this).parent('div'));
+                    editUrl = node.editUrl;
+                    formDialog.open('Редактирование пользователя ' + node.name, editUrl);
+                    return false;
+                })));
+                node.element.attr('groups_count', node.groups.length)
+                if(node.groups.length > 0 && node.element.parent('.dl_source_column').length == 1)
+                {
+                    node.element.hide();
+                }
+            },
+            onMoveNode:function (event, node, sourceList, recipientList, direction) {
+                setCountNodesForColumns(fChoosers.getSourceContainer().find('div:visible').length, fChoosers.getRecipientContainer().find('div:visible').length);
+                setDataForPOst(recipientList, input);
+            },
+            sort: function(x, y){
+                return (x.role > y.role && x.name > y.name);
+            }
+        });
+
+        toggleUsers.click(function(){
+            if($(this).is(':checked'))
+            {
+                fChoosers.getSourceContainer().find('div[groups_count!=0]').show();
+            }
+            else{
+                fChoosers.getSourceContainer().find('div[groups_count!=0]').hide();
+            }
+            setCountNodesForColumns(fChoosers.getSourceContainer().find('div:visible').length, fChoosers.getRecipientContainer().find('div:visible').length);
+        })
+
+        setCountNodesForColumns(fChoosers.getSourceContainer().find('div:visible').length, fChoosers.getRecipientContainer().find('div:visible').length);
+        setDataForPOst(fChoosers.getRecipientList(), input);
+
+
+        function setDataForPOst(rList, input) {
+
+            var dataForPost = new Array();
+            for(i=0; i<rList.length; i++) {
+                    dataForPost.push(rList[i].id);
+            }
+            input.val(JSON.stringify(dataForPost));
+        }
+
+        function setCountNodesForColumns(leftCount, rightCount) {
+            $('#um_leftColumn_footer').text(leftCount);
+            $('#um_rightColumn_footer').text(rightCount);
+        }
+
+        function actionAfterUserUpdate(data, submitDialog) {
+            var data_ = JSON.parse(data.view);
+            var pList = editUser.find('p');
+            $(pList[0]).text(data_.data[0]);
+            $(pList[1]).text(data_.data[2]);
+            if (data_.data[4] == 'Да') {
+                $(pList[2]).text('Активен');
+                $(pList[2]).removeClass('no-active');
+                $(pList[2]).addClass('active');
+            }
+            else
+            {
+                $(pList[2]).text('Заблокирован');
+                $(pList[2]).removeClass('active');
+                $(pList[2]).addClass('no-active');
+            }
+            submitDialog.close();
+        }
+    }
+</script>

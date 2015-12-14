@@ -1,0 +1,37 @@
+PREPARE FOR WORK:
+1. Create folder with name "cache" in root of the project. This folder must include in self two folders: "doctrine" and "twig".
+2. Set the resolution on folder "cache" for write and read
+3. You must configure settings of connection to database in file config\data_base.php
+4. You must create virtual host for web-server of next type (if used Apache):
+    Listen HOST:PORT
+    <VirtualHost HOST:PORT>
+      ServerName yourname.com.localhost
+      DocumentRoot "path\to\project\web"
+      DirectoryIndex index.php
+      <Directory "path\to\project\web">
+        AllowOverride All
+        Allow from All
+      </Directory>
+    </VirtualHost>
+6. Go to folder orm\bin with help of next commands:
+    cd project\path
+    cd libs\doctrine\vendor\doctrine\orm\bin
+7. Now you must create database on server with help of next command:
+    php doctrine lw:pdo:create_database
+8. And create schema of data on server with help of command:
+    php doctrine orm:schema-tool:create
+9. Next step is create proxy-classes with help of next command:
+    php doctrine orm:generate-proxies
+10. And, finally, create primary data in data source with help of next command:
+    php doctrine lw:insert_primary_data
+11. Ok, now all is should work. You can get access to panel of management of users, if  you login into program as administrator
+
+NOTICES:
+   This program prepared only for work with "Apache".
+   If on your web server closed access to module "mod_rewrite", then all requests to program should sent through index.php.
+   =============================================
+   Default administration account:
+   login admin
+   pass  _admin_
+   =============================================
+   For work with panel of management of groups  used context menu (right button mouse).

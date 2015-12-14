@@ -1,0 +1,106 @@
+{% extends 'layout::for_aut.html.twig'|set_ds %}
+{% block title %}
+    Task tracker LightWork SAYs to you never stop, continuous create tasks!
+{% endblock %}
+{% block section_caption %}
+    <div style="width: 100%; float: left;">
+        {{ task.theme }}
+        {% if(task.dateLimit) %}
+            (до {{ task.dateLimit.format('d.m.Y H:i') }})
+        {% endif %}
+    </div>
+    <div class="task_action_panel">
+        {% for button in buttons %}
+            <a href="{{ button.url }}" class="buttonlink">
+               {{ button.caption }}
+            </a>
+        {% endfor %}
+    </div>
+    <div class="task_state">
+        {{ states[task.state] }}
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('task_tracker/css/main.css') }}" type="text/css" media="all"/>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/construct/form_dialog_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/error_dialog_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('task_tracker/js/task_report.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <div class="task">
+        <div class="ui-widget">
+            <div class="ui-state-highlight ui-corner-all">
+                Создана: <strong>{{ task.dateCreate.format('d.m.Y г. в H ч. i мин.') }}</strong><br/>
+                Принята: <strong>
+                    {% if(task.dateAccept) %}
+                        {{ task.dateAccept.format('d.m.Y г. в H ч. i мин.') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </strong><br/>
+                Завершена: <strong>
+                    {% if(task.dateComplete) %}
+                        {{ task.dateComplete.format('d.m.Y г. в H ч. i мин.') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </strong><br/>
+                Отменена: <strong>
+                    {% if(task.dateCancel) %}
+                        {{ task.dateCancel.format('d.m.Y г. в H ч. i мин.') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </strong><br/>
+                Срочность: <strong>{{ speed[task.speedLevel] }}</strong><br/>
+                Сложность: <strong>{{ hard[task.hardLevel] }}</strong><br/>
+            </div>
+        </div>
+        <h3>Задание:</h3>
+
+        <p class="body">
+            <strong>{{ task.body }}</strong>
+        </p>
+
+        <h3>Участники:</h3>
+        <ul>
+            {% for user in task.users %}
+                <li>
+                    {{ roles[user.role] }}: {{ user.user.firstName }} {{ user.user.name }} {{ user.user.secondName }}
+                    ({{ user.user.workPosition }})
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% set comments = task.reports %}
+    <h3>Комментарии ( <span id="comments_count">{{ comments|length }}</span> )</h3><a href="#" id="new_report">Добавить комментарий</a>
+    <div id ='report_accordion'>
+        {% for comment in comments %}
+           <h3>{{ comment.user.firstName }} {{ comment.user.name }} {{ comment.user.secondName }} {{ comment.dateCreate.format('d.m.Y H:i') }}</h3>
+            <div>
+                {{ comment.body }}
+            </div>
+        {% endfor %}
+    </div>
+    <div id="error_dialog">
+        <span class="ui-icon ui-icon-alert" style="float: left"></span><br/>
+
+        <div class="message"></div>
+    </div>
+
+    <div id="form_dialog">
+        <div class="form_place"></div>
+        <br/>
+        <div class="status_bar" style="display: none; border-top: 0px inset #6c6159; font-size: 80%; width: 100%;">
+            <span></span>
+            <img src="{{ asset('user_manager/images/eq_loader.gif') }}">
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var formUrl = "{{ path('task_report_new', {'taskId': task.id}) }}";
+        initTaskShowScripts();
+    </script>
+{% endblock %}

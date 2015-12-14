@@ -1,0 +1,36 @@
+{% extends 'layout::main.html.twig'|set_ds %}
+{% block title %}
+    Task tracker LightWork SAYs introduck to you!
+{% endblock %}
+{% block section_caption %}
+    Авторизация
+{% endblock %}
+{% block content %}
+    <div id="login_tabs" style="background-color: #fff; width: 320px; height: 300px; float: right;">
+        <div id="login" style="padding: 10px 10px 10px 10px;">
+            {{ form_begin(form) }}
+            <label style="float: left; width: 200px;">{{ form_caption(form,'login') }}</label>
+            {{ form_field(form, 'login') }}<br/>
+            <label style="float: left; width: 200px;">{{ form_caption(form,'password') }}</label>
+            {{ form_field(form, 'password') }}<br/>
+            {{ form_field (form, 'submit') }}
+            {{ form_end(form) }}
+
+            {% if form.errors|length > 0 %}
+                <div class="ui-state-error ui-corner-all" style="margin-top: 150px;">
+                    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                    <ul>
+                        {% for error in form.errors %}
+                            <li style="color: #d30c11">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //$('#login_tabs').tabs()
+        $('[type=submit]').button();
+    </script>
+{% endblock %}

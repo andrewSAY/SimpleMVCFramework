@@ -1,0 +1,54 @@
+{% extends 'layout::for_aut.html.twig'|set_ds %}
+{% block title %}
+    Task tracker LightWork SAYs to you is this world is your !
+{% endblock %}
+{% block section_caption %}
+    Панель упаравления пользователями и группами
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/table_sort.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('user_manager/css/main.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('libs/dataTables1.10.5/css/jquery.dataTables.min.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('libs/jqTree-1.0.0.2/jqtree.css') }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('libs/draggableLists/draggable_list_style.css') }}" type="text/css" media="all" />
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('libs/jqTree-1.0.0.2/tree.jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/dataTables1.10.5/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/contextmenu/jquery.ui-contextmenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('libs/draggableLists/draggable_lists_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('user_manager/js/main.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/table_grid_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/messenger_two_button_constructor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/form_dialog_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/error_dialog_construct.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/construct/tree_view_group_constructor.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <div id="tabs" style="width: 100%;">
+        <ul>
+            <li>
+                <a href="{{ path('admin_groups') }}">Группы</a>
+            </li>
+            <li>
+                <a href="{{ path('admin_users') }}">Пользователи</a>
+            </li>
+        </ul>
+    </div>
+    <div id="test"></div>
+
+    <div id="error_dialog">
+        <span class="ui-icon ui-icon-alert" style="float: left"></span><br/>
+
+        <div class="message"></div>
+    </div>
+
+    <div id="form_dialog">
+        <div class="form_place"></div>
+        <br/>
+        <div class="status_bar" style="display: none; border-top: 0px inset #6c6159; font-size: 80%; width: 100%;">
+            <span></span>
+            <img src="{{ asset('user_manager/images/eq_loader.gif') }}">
+        </div>
+    </div>
+{% endblock %}

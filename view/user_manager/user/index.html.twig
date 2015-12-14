@@ -1,0 +1,39 @@
+
+<h3>Список пользователей</h3>
+
+<table id="grid" class="table_sort">
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>E-mail</th>
+        <th>Роль</th>
+        <th>Рег. завершена</th>
+        <th>Активен</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.username }}</td>
+            <td>{{ entity.email }}</td>
+            <td>{{ entity.getRoleList[entity.role] }}</td>
+            <td>{% if entity.wasChecked == true %}Да{% else %}Нет{% endif %}</td>
+            <td>{% if entity.isActive == true %}Да{% else %}Нет{% endif %}</td>
+            <td>
+                <a href="{{ path('admin_user_delete_request', {'id': entity.id}) }}">
+                    Удалить
+                </a>
+                <input type="hidden" value="{{ path('admin_user_edit', { 'id': entity.id }) }}">
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<ul class="grid_actions" style="list-style-type: none; display: inline;">
+    <li>
+        <a href="{{ path('admin_user_new') }}">
+            Создать нового пользователя
+        </a>
+    </li>
+</ul>

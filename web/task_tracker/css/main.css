@@ -1,0 +1,163 @@
+.task_form
+{
+    width: 100%;
+}
+
+.task_form .form_error ul
+{
+    font-size: 80%;
+    font-weight: bold;
+    color: #d30c11;
+    display: inline;
+    list-style: none;
+}
+
+.task_form div.ui-datepicker
+{
+    font-size: 50%;
+}
+
+.task_form tr td
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.task_form input[type=text],.task_form select,.task_form textarea
+{
+    font-size: 100%;
+    width: 450px;
+    background-color: #f3fadf;
+    float: left;
+    border: solid 1px #538451;
+}
+
+.task_form textarea
+{
+    height: 100px;
+}
+
+.task_form label
+{
+    font-size: 110%;
+    color: #3f4556;
+    float: left;
+}
+
+.task_list
+{
+    width: 100%;
+}
+
+.task_list tr td a
+{
+    color: #000;
+    text-decoration: none;
+    font-size: 105%;
+}
+
+.task_list tr td
+{
+    vertical-align: middle;
+    border: 0px solid #3f4556;
+    margin-bottom: 50px;
+}
+
+.task_list tr td a div
+{
+    width: 100%;
+    min-height: 50px;
+    font-size: 85%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 5px 10px 5px 10px;
+}
+
+.task_list tr td a div span
+{
+    width: 100%;
+    float: left;
+}
+
+.task_list tr td a div.even
+{
+    background-color: #55c7a5;
+    text-align: left;
+}
+
+.task_list tr td a div.odd
+{
+    background-color: #ffd8b5;
+    text-align: right;
+}
+
+.task_list tr td a div:hover
+{
+    color: #fff;
+    background-color: #887dc2;
+}
+
+.task
+{
+    width: 100%;
+}
+
+.task div.ui-state-highlight
+{
+    font-size: 75%;
+    padding: 20px 20px 20px 20px;
+}
+
+.task .body
+{
+    background-color: #e4fad7;
+    padding: 20px 20px 20px 20px;
+    border: 1px solid #637462;
+}
+
+.task ul
+{
+    list-style: none;
+    font-size: 85%;
+}
+
+.task_action_panel
+{
+    float: left;
+}
+
+.task_action_panel a.buttonlink
+{
+    font-size: 45%;
+    padding: 3px 3px 3px 3px;
+}
+
+.task_state
+{
+    width: 100%;
+    float: right;
+    font-size: 50%;
+    color: #538451;
+    font-weight: bold;
+}
+
+.task_report_form textarea
+{
+    background-color: #faf8bd;
+    border: 1px solid #92906e;
+    font-size: 75%;
+}
+
+.task_report_form ul
+{
+    list-style: none;
+    color: #ad070a;
+    font-size: 75%;
+}
+
+#report_accordion h3
+{
+    font-size: 75%;
+    color: #2b6058;
+}
+
+
